@@ -11,6 +11,7 @@ const StyledHeader = styled.header`
     width: 100%;
     position: relative;
     z-index: 10;
+    padding-bottom: 6%;
 `;
 
 const StyledTitle = styled.h1`
