@@ -8,6 +8,7 @@ if (!MONGO_URI) {
 
 const DB_NAME = "cs391-budgeting-app";
 export const TRANSACTIONS_COLLECTION = "transactions-collection";
+export const BUDGET_COLLECTION = "budget-collection";
 
 let client: MongoClient | null = null;
 let db: Db | null = null;
