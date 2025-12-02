@@ -2,6 +2,12 @@
 
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import {
+    PieChart, Pie, Tooltip, Cell, Legend,
+    BarChart, Bar, XAxis, YAxis, 
+  } from "recharts";
+  // how to create pie charts using recharts: https://www.geeksforgeeks.org/reactjs/create-a-pie-chart-using-recharts-in-reactjs/
+  // how to create bar charts using recharts: https://www.geeksforgeeks.org/reactjs/create-a-bar-chart-using-recharts-in-reactjs/
 
 const StyledMain = styled.main`
     background-color: white;
@@ -24,6 +30,7 @@ const StyledP = styled.p`
     font-size: calc(4px + 1vw);
     font-weight: bold;
     text-align: center;
+    padding-bottom: 3%;
 `;
 
 const StyledH2 = styled.h2`
@@ -38,38 +45,24 @@ const StyledH2 = styled.h2`
     text-decoration: underline;
 `;
 
-const StyledSpan = styled.span`
-  padding-left: 100%;
-`;
-
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 50%;
     height: 50vh;
-    margin: auto;
+    margin: auto auto auto 18%;
     padding-bottom: 30%;
-
-
 `;
 
 const StyledLeft = styled.div`
-    border: 2px solid black;
     width: 70%;
     height: 50vh;
 
 `;
 
 const StyledRight = styled.div`
-    border: 2px solid black;
     width: 30%;
     height: 50vh;
-`;
-
-const StyledTitleContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 80%
 `;
 
 const StyledContainer2 = styled.div`
@@ -135,10 +128,19 @@ const StyledLink = styled.a`
 
 export default function Dashboard() {
     const [isMounted, setIsMounted] = useState(false);
+    const [data, setData] = useState<any>(null);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
     useEffect(() => {
         setIsMounted(true);
+    }, []);
+
+
+    useEffect(() => {
+        fetch("/api/dashboard/monthly?month=2025-12")
+        .then(res => res.json())
+        .then(setData)
+        .catch(console.error);
     }, []);
 
     if (!isMounted) {
@@ -149,15 +151,41 @@ export default function Dashboard() {
         <StyledMain>
             <StyledH1>Welcome to your Dashboard!</StyledH1>
             <StyledP>An all encompassing app to meet your financial needs</StyledP>
-
-            <StyledTitleContainer>
-                <StyledH2>Monthly View</StyledH2>
-                <StyledH2><StyledSpan>Filter</StyledSpan></StyledH2>
-            </StyledTitleContainer>
             
             <StyledContainer>
-                <StyledLeft></StyledLeft>
-                <StyledRight></StyledRight>
+                <StyledLeft>
+                    {data && (
+                        <PieChart width={400} height={400}>
+                            <Pie
+                            data={[
+                                { name: "Spent", value: data.totalSpent },
+                                { name: "Remaining", value: data.remaining }
+                            ]}
+                            dataKey="value"
+                            outerRadius={120}
+                            fill="#8884d8"
+                            label
+                            >
+                            <Cell fill="#ff4444" />
+                            <Cell fill="#44aa44" />
+                            </Pie>
+                            <Tooltip />
+                            <Legend />
+                        </PieChart>
+                    )}
+                </StyledLeft>
+
+                <StyledRight>
+                    {data && (
+                        <BarChart width={400} height={400} data={data.categories}>
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="spent" fill="#ff4444" />
+                            <Bar dataKey="limit" fill="#4444ff" />
+                        </BarChart>
+                    )}
+                </StyledRight>
             </StyledContainer>
 
             <StyledContainer2>
