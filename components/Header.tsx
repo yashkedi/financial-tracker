@@ -1,5 +1,7 @@
 "use client"
 import styled from "styled-components";
+import Link from "next/link";
+
 
 const StyledHeader = styled.header`
     background-color: white;
@@ -68,10 +70,19 @@ export default function Header() {
 
             <StyledNav>
                 <StyledUl>
-                    <StyledLi>Home</StyledLi>
-                    <StyledLi>Budget</StyledLi>
-                    <StyledLi>Savings & Goals</StyledLi>
-                    <StyledLi>Transactions</StyledLi>
+
+                    <StyledLi>
+                        <Link  href="/">Home</Link>
+                    </StyledLi>
+
+                    <StyledLi>
+                        <Link  href="/budget">Budget</Link>
+                    </StyledLi>
+
+                    <StyledLi>
+                        <Link  href="/transactions">Transactions</Link>
+                    </StyledLi>
+
                 </StyledUl>
             </StyledNav>            
         </StyledHeader>
