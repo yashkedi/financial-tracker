@@ -17,12 +17,17 @@ const StyledText = styled.p`
     color: black;
 `
 
+const StyledLink = styled(Link)`
+    color:green;
+    text-decoration: none;
+`
+
 export default function Footer() {
     const styledLink = 'text-black'
 
     return (
         <StyledFooter>
-            <StyledText>All rights reserved by ... &copy;</StyledText> <Link className={styledLink} href={'/'}>Credits</Link>
+            <StyledText>All rights reserved by FinancialTracker&copy;</StyledText> <StyledLink className={styledLink} href={'/credits'}>Credits</StyledLink>
         </StyledFooter>
     )
 }

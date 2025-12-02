@@ -5,13 +5,13 @@ import type { Budget } from "@/types/budget";
 import getCollection, {BUDGET_COLLECTION} from "@/db";
 
 export default async function createNewBudget(
-    month:string, // e.g. "2025-11"
-    totalBudget:number, // total budget allocated for the month
+    month:string,
+    totalBudget:number,
     categories: { // amount allocated per category
         name: string;
         limit: number; }[]
 ): Promise<Budget> {
-    console.log("Creating new budget");
+    console.log("Creating new budget!");
 
     const newBudget = {
         month:month,
@@ -27,5 +27,6 @@ export default async function createNewBudget(
         throw new Error("DB budget insert failed...")
     }
 
+    console.log("Successfully inserted in DB!");
     return { ...newBudget, id: res.insertedId.toHexString() };
 }
