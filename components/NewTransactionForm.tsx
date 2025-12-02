@@ -246,17 +246,6 @@ export default function NewTransactionForm({append}: Props) {
                         />
                     </Label>
 
-                    {/* Location: Country starts here*/}
-                    <Label>
-                        Country
-                        <Input
-                            type="text"
-                            name="country"
-                            value={form.country}
-                            onChange={handleChange}
-                        />
-                    </Label>
-
                     {/* Location: City starts here*/}
                     <Label>
                         City
@@ -264,6 +253,17 @@ export default function NewTransactionForm({append}: Props) {
                             type="text"
                             name="city"
                             value={form.city}
+                            onChange={handleChange}
+                        />
+                    </Label>
+
+                    {/* Location: Country starts here*/}
+                    <Label>
+                        Country
+                        <Input
+                            type="text"
+                            name="country"
+                            value={form.country}
                             onChange={handleChange}
                         />
                     </Label>
