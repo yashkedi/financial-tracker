@@ -46,6 +46,7 @@ export async function GET(req: Request) {
   });
 
   return Response.json({
+    currentMonth: budget.month,
     totalBudget: budget.totalBudget,
     totalSpent,
     remaining: budget.totalBudget - totalSpent,

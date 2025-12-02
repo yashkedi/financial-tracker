@@ -39,10 +39,9 @@ const StyledH2 = styled.h2`
     font-weight: bold;
     font-variant: small-caps;
     margin: auto;
-    padding-top: 3%;
     color: #575656;
     padding-bottom: 1%;
-    text-decoration: underline;
+    text-align: center;
 `;
 
 const StyledContainer = styled.div`
@@ -152,7 +151,16 @@ export default function Dashboard() {
             <StyledH1>Welcome to your Dashboard!</StyledH1>
             <StyledP>An all encompassing app to meet your financial needs</StyledP>
             
-            <StyledContainer>
+            {data && (
+                <>
+                    <StyledH2>
+                    {data.currentMonth}
+                    </StyledH2>
+                    <StyledH2>
+                        Monthly Budget: ${data.totalBudget}
+                    </StyledH2>
+
+                    <StyledContainer>
                 <StyledLeft>
                     {data && (
                         <PieChart width={400} height={400}>
@@ -187,6 +195,8 @@ export default function Dashboard() {
                     )}
                 </StyledRight>
             </StyledContainer>
+                </>
+            )}
 
             <StyledContainer2>
                 <StyledH3>Tips & Resources</StyledH3>
