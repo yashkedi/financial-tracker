@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const StyledContainer = styled.main`
+const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
     font-family: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
@@ -15,14 +15,14 @@ const StyledContainer = styled.main`
 
 const StyledHead = styled.h1`
     font-family: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
-    font-size: calc(8px + 2vw);
+    font-size: calc(8px + 1vw);
     color: black;
     font-weight: bold;
 `
 
 const StyledText = styled.p`
     font-family: "Cormorant Garamond", "Georgia", serif;
-    font-size: calc(7px + 1vw);
+    font-size: calc(6px + 1vw);
     color: black;
 `
 
