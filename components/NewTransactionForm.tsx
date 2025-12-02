@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import createNewTransaction from "@/lib/createNewTransaction";
 import type {TransactionEntry} from "@/types/transaction";
@@ -115,6 +115,9 @@ type FormState = {
 };
 
 export default function NewTransactionForm({append}: Props) {
+
+    const [isMounted, setIsMounted] = useState(false);
+
     const [form, setForm] = useState<FormState>({
         category: "",
         amount: "",
@@ -126,6 +129,15 @@ export default function NewTransactionForm({append}: Props) {
     });
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
 
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -154,7 +166,6 @@ export default function NewTransactionForm({append}: Props) {
 
             const newTx = await createNewTransaction(payload);
             if (append) append(newTx);
-
             setForm((prev) => ({
                 ...prev,
                 amount: "",

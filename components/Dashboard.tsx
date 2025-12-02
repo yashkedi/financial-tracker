@@ -1,5 +1,7 @@
 "use client"
+
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 
 const StyledMain = styled.main`
     background-color: white;
@@ -132,6 +134,17 @@ const StyledLink = styled.a`
 `;
 
 export default function Dashboard() {
+    const [isMounted, setIsMounted] = useState(false);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
+
     return (
         <StyledMain>
             <StyledH1>Welcome to your Dashboard, "name"!</StyledH1>

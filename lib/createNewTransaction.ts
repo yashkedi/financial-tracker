@@ -1,7 +1,7 @@
 "use server";
 
 import getCollection, {TRANSACTIONS_COLLECTION} from "@/db";
-import {TransactionEntry} from "@/types/transaction";
+import type {TransactionEntry} from "@/types/transaction";
 
 function isValidAmount(amount: number) {
     return Number.isFinite(amount) && amount > 0;
@@ -38,8 +38,15 @@ export default async function createNewTransaction(data: Omit<TransactionEntry, 
         throw new Error("DB insert failed");
     }
 
-    return {
+    const result: TransactionEntry = {
         id: res.insertedId.toHexString(),
-        ...entry,
+        category: entry.category,
+        amount: entry.amount,
+        currency: entry.currency,
+        description: entry.description,
+        transactionDate: entry.transactionDate,
+        location: entry.location,
     };
+
+    return result;
 }
