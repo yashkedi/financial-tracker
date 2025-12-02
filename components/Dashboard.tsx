@@ -147,7 +147,7 @@ export default function Dashboard() {
 
     return (
         <StyledMain>
-            <StyledH1>Welcome to your Dashboard, "name"!</StyledH1>
+            <StyledH1>Welcome to your Dashboard!</StyledH1>
             <StyledP>An all encompassing app to meet your financial needs</StyledP>
 
             <StyledTitleContainer>
