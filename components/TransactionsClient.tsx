@@ -3,7 +3,7 @@
 import exportCsv from "@/lib/exportCsv";
 import type { Transaction } from "@/lib/transactionUtils";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
 
@@ -180,7 +180,7 @@ const formatCurrency = (value: number) => `$${value.toFixed(2)}`;
 export default function TransactionsClient({ initialTransactions }: Props) {
  const [search, setSearch] = useState("");
  const [category, setCategory] = useState("all");
-
+ const [isMounted, setIsMounted] = useState(false);
 
  const categories = useMemo(
    () => Array.from(new Set(initialTransactions.map((tx) => tx.category))).filter(Boolean),
@@ -203,6 +203,20 @@ export default function TransactionsClient({ initialTransactions }: Props) {
 
 
  const visible = filtered.slice(0, 10);
+
+ useEffect(() => {
+   setIsMounted(true);
+ }, []);
+
+ if (!isMounted) {
+   return (
+     <Page>
+       <Content>
+         <Title>Transactions</Title>
+       </Content>
+     </Page>
+   );
+ }
 
 
  return (
