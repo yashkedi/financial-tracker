@@ -15,11 +15,13 @@ const StyledFooter = styled.footer`
 const StyledText = styled.p`
     text-align: center;
     color: black;
+    font-size: calc(4px + 1vw);
 `
 
 const StyledLink = styled(Link)`
     color:green;
     text-decoration: none;
+    font-size: calc(4px + 1vw);
 `
 
 export default function Footer() {
