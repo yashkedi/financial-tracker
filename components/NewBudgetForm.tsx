@@ -119,19 +119,19 @@ export default function NewBudgetForm() {
     const [categories, setCategory] = useState(
         [
             {
-                name: "groceries", limit: 0
+                name: "Groceries", limit: 0
             },
             {
-                name: "travel", limit: 0
+                name: "Travel", limit: 0
             },
             {
-                name: "personal", limit: 0
+                name: "Personal", limit: 0
             },
             {
-                name: "bills", limit: 0
+                name: "Bills", limit: 0
             },
             {
-                name: "other", limit: 0
+                name: "Other", limit: 0
             },
         ]
     );
