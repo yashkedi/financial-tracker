@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import {
-    PieChart, Pie, Tooltip, Cell, Legend,
+    PieChart, Pie, Tooltip, Cell, Legend, ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, 
   } from "recharts";
   // how to create pie charts using recharts: https://www.geeksforgeeks.org/reactjs/create-a-pie-chart-using-recharts-in-reactjs/
@@ -39,10 +39,9 @@ const StyledH2 = styled.h2`
     font-weight: bold;
     font-variant: small-caps;
     margin: auto;
-    padding-top: 3%;
     color: #575656;
     padding-bottom: 1%;
-    text-decoration: underline;
+    text-align: center;
 `;
 
 const StyledContainer = styled.div`
@@ -152,41 +151,56 @@ export default function Dashboard() {
             <StyledH1>Welcome to your Dashboard!</StyledH1>
             <StyledP>An all encompassing app to meet your financial needs</StyledP>
             
-            <StyledContainer>
+            {data && (
+                <>
+                    <StyledH2>
+                    {data.currentMonth}
+                    </StyledH2>
+                    <StyledH2>
+                        Monthly Budget: ${data.totalBudget}
+                    </StyledH2>
+
+                    <StyledContainer>
                 <StyledLeft>
                     {data && (
-                        <PieChart width={400} height={400}>
-                            <Pie
+                        <ResponsiveContainer width="100%" height="80%">
+                        <PieChart>
+                          <Pie
                             data={[
-                                { name: "Spent", value: data.totalSpent },
-                                { name: "Remaining", value: data.remaining }
+                              { name: "Spent", value: data.totalSpent },
+                              { name: "Remaining", value: data.remaining }
                             ]}
                             dataKey="value"
-                            outerRadius={120}
-                            fill="#8884d8"
+                            outerRadius="60%"
                             label
-                            >
+                          >
                             <Cell fill="#ff4444" />
                             <Cell fill="#44aa44" />
-                            </Pie>
-                            <Tooltip />
-                            <Legend />
+                          </Pie>
+                          <Tooltip />
+                          <Legend />
                         </PieChart>
+                      </ResponsiveContainer>
                     )}
                 </StyledLeft>
 
                 <StyledRight>
                     {data && (
-                        <BarChart width={400} height={400} data={data.categories}>
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="spent" fill="#ff4444" />
-                            <Bar dataKey="limit" fill="#4444ff" />
-                        </BarChart>
+                        <ResponsiveContainer  width="100%" height="90%">
+                            <BarChart width={400} height={400} data={data.categories}>
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="spent" fill="#ff4444" />
+                                <Bar dataKey="limit" fill="#4444ff" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                        
                     )}
                 </StyledRight>
             </StyledContainer>
+                </>
+            )}
 
             <StyledContainer2>
                 <StyledH3>Tips & Resources</StyledH3>
