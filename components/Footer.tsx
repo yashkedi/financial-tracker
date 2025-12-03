@@ -5,15 +5,14 @@ import Link from "next/link";
 
 const StyledFooter = styled.footer`
     font-family: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
-    align-content: center;
-    text-align: center;
+    text-align: left;
     background-color: white;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     padding: 1%;
 `
 
 const StyledText = styled.p`
-    text-align: center;
+    text-align: left;
     color: black;
     font-size: calc(4px + 1vw);
 `

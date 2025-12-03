@@ -1,7 +1,6 @@
 "use client";
 
 import createNewBudget from "@/lib/createNewBudget";
-import type { Budget } from "@/types/budget";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -79,6 +78,13 @@ const StyledP = styled.p`
     padding-bottom: 10px;
 `
 
+const StyledError = styled.span`
+    color: black;
+    align-self: center;
+    font-size: calc(3px + 1vw);
+    padding: 5px;
+`
+
 const StyledButton = styled.button`
     padding: 10px;
     border: 1px solid black;
@@ -131,7 +137,8 @@ export default function NewBudgetForm() {
     );
 
     // error handling
-    // const [error, setError] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // helper function to update category limits when input
     function updateLimit(i:number, val:number) {
@@ -142,17 +149,81 @@ export default function NewBudgetForm() {
         });
     }
 
+    // helper function to check if month is valid format
+    function checkMonth(month:string) {
+        // use regexp to check if month string is valid
+        const validMonth = /^\d{4}-(0[1-9]|1[0-2])$/;
+        return validMonth.test(month);
+    }
+
+    // helper function to check if totalBudget is non-neg
+    function checkBudget(budget:number) {
+        // check if totalBudget >= 0
+        return budget >= totalBudget;
+    }
+
+    // helper function to check if category limits sum to total budget (or less than)
+    function checkLimit( categories:{name: string; limit: number;}[] ):boolean {
+        // sum each category limit
+        const sum = categories.reduce(
+            (accumulator: number, category) =>
+                (accumulator + category.limit), 0
+        );
+
+        // check if sum is less than or equal to totalBudget
+        return (sum === totalBudget);
+    }
+
+    async function submitNewBudget() {
+        setLoading(true);
+        setError('');
+
+        try {
+
+            // check if month is correct format
+            if(!checkMonth(month)) {
+                // set error message and loading to false
+                setError("Invalid month format. Please input a valid month (YYYY-MM)!");
+                setLoading(false);
+                return;
+            }
+
+            // check if totalBudget is >= 0
+            if(!checkBudget(totalBudget)) {
+                // set error message and loading to false
+                setError("Invalid total budget. Please input a valid budget!");
+                setLoading(false);
+                return;
+            }
+
+            // check if the limits input are valid (they sum to the totalBudget)
+            if (!checkLimit(categories)) {
+                // set error message and loading to false
+                setError("Invalid category budget limits. The total sum of your allocated budgets does not equal your total budget!")
+                setLoading(false);
+                return;
+            }
+
+            // submit to database
+            await createNewBudget(month, totalBudget, categories);
+
+        } catch (err) {
+            console.log(err);
+            // catch error
+            setError("Failed to create new budget. Please try again.")
+        } finally {
+            // no longer loading
+            setLoading(false);
+        }
+    }
+
     return (
         <StyledContainer>
             {/* beginning of form */}
             <StyledForm
                 onSubmit={async (e) => {
                     e.preventDefault();
-                    createNewBudget(month, totalBudget, categories)
-                        .then((newBudget):void => {
-                            console.log("created new budget", newBudget);
-                        })
-                        .catch((err) => console.error(err))
+                    await submitNewBudget();
                 }}
             >
                 {/* input for Month (as a string YYYY-MM) */}
@@ -191,15 +262,23 @@ export default function NewBudgetForm() {
                         ))}
                 </StyledCategories>
 
+                {/* show error if there was an error filling the form (invalid month, totalBudget, or category limits) */}
+                {error &&
+                    <StyledError>
+                        {error}
+                    </StyledError>
+                }
+
                 {/* submit button */}
                 <StyledButton
                     type="submit"
-                    disabled={!month || !totalBudget}
+                    disabled={!month || !totalBudget || loading}
                 >
                     Submit Budget
                 </StyledButton>
 
             </StyledForm>
+
         </StyledContainer>
     )
 }
