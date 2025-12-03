@@ -136,7 +136,12 @@ export default function Dashboard() {
 
 
     useEffect(() => {
-        fetch("/api/dashboard/monthly?month=2025-12")
+        const now = new Date();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const year = now.getFullYear();
+        const ym = `${year}-${month}`;
+
+        fetch(`/api/dashboard/monthly?month=${ym}`)
         .then(res => res.json())
         .then(setData)
         .catch(console.error);
