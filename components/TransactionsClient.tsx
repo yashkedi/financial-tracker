@@ -17,6 +17,7 @@ const Page = styled.main`
  padding: 2% 4% 3%;
  color: #111827;
  font-family: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
+ height: 100vh;
 `;
 
 
