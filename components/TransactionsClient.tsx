@@ -82,7 +82,7 @@ const ButtonBase = styled.button`
 const ExportButton = styled(ButtonBase)``;
 
 const AddButton = styled(Link)`
-  ${buttonStyles}
+  ${buttonStyles};
   background: #14532d;
   border-color: #14532d;
   text-decoration: none;
@@ -122,7 +122,7 @@ const Select = styled.select`
 const TableWrapper = styled.section`
  background: #fff;
  border: 1px solid #e5e7eb;
- box-shadow: 0 2% 6% rgba(0, 0, 0, 0.05);
+ box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.05);
  overflow: hidden;
 `;
 
@@ -209,18 +209,13 @@ export default function TransactionsClient({ initialTransactions }: Props) {
  // Keep the list short to avoid rendering very large tables on first load.
  const visible = filtered.slice(0, 10);
 
+ // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
  useEffect(() => {
    setIsMounted(true);
  }, []);
 
  if (!isMounted) {
-   return (
-     <Page>
-       <Content>
-         <Title>Transactions</Title>
-       </Content>
-     </Page>
-   );
+   return null;
  }
 
 
