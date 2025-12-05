@@ -1,4 +1,5 @@
 "use client";
+// Created by Yash Kedia
 
 import exportCsv from "@/lib/exportCsv";
 import type { Transaction } from "@/lib/transactionUtils";
@@ -183,12 +184,14 @@ export default function TransactionsClient({ initialTransactions }: Props) {
  const [category, setCategory] = useState("all");
  const [isMounted, setIsMounted] = useState(false);
 
+ // Build a unique set of categories for the filter dropdown.
  const categories = useMemo(
    () => Array.from(new Set(initialTransactions.map((tx) => tx.category))).filter(Boolean),
    [initialTransactions]
  );
 
 
+ // Apply search + category filters in one pass for consistent results.
  const filtered = useMemo(() => {
    const term = search.trim().toLowerCase();
    return initialTransactions.filter((tx) => {
@@ -203,6 +206,7 @@ export default function TransactionsClient({ initialTransactions }: Props) {
  }, [initialTransactions, search, category]);
 
 
+ // Keep the list short to avoid rendering very large tables on first load.
  const visible = filtered.slice(0, 10);
 
  useEffect(() => {

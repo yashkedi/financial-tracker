@@ -1,6 +1,8 @@
+// Created by Yash Kedia
 type Row = Record<string, unknown>;
 
 
+// Surround a value with quotes and escape embedded quotes for CSV safety.
 const escapeCell = (value: unknown): string => {
  if (value === null || value === undefined) return '""';
  const str = String(value);
@@ -8,6 +10,7 @@ const escapeCell = (value: unknown): string => {
 };
 
 
+// Build a CSV string with headers derived from the first row.
 const buildCsv = (rows: Row[]): string => {
  if (!rows.length) return "";
  const headers = Object.keys(rows[0]);
@@ -19,6 +22,7 @@ const buildCsv = (rows: Row[]): string => {
 };
 
 
+// Client-only helper to trigger a CSV download for the provided rows.
 export default function exportCsv(filename: string, rows: Row[]) {
  if (typeof window === "undefined") return;
  if (!rows.length) return;

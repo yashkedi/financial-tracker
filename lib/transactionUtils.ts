@@ -1,3 +1,4 @@
+// Created by Yash Kedia
 import getCollection, { TRANSACTIONS_COLLECTION } from "@/db";
 import { ObjectId } from "mongodb";
 import { cache } from "react";
@@ -26,6 +27,7 @@ type TransactionDocument = {
 };
 
 
+// Normalize a date-ish input into YYYY-MM-DD or empty string if invalid.
 const formatDate = (value?: Date | string): string => {
  if (!value) return "";
  const date = value instanceof Date ? value : new Date(value);
@@ -33,6 +35,7 @@ const formatDate = (value?: Date | string): string => {
 };
 
 
+// Render city/country in a single string, trimming missing parts gracefully.
 const formatLocation = (loc?: TransactionDocument["location"]): string => {
  if (!loc) return "";
  const city = loc.city?.trim();
@@ -42,6 +45,7 @@ const formatLocation = (loc?: TransactionDocument["location"]): string => {
 };
 
 
+// Convert a raw Mongo document to the app's Transaction shape, guarding bad data.
 const toTransaction = (doc: TransactionDocument): Transaction | null => {
  const id = doc._id?.toString();
  if (!id) return null;
@@ -59,6 +63,7 @@ const toTransaction = (doc: TransactionDocument): Transaction | null => {
 };
 
 
+// Cached server fetch; pulls from Mongo, sorts newest first, and strips invalid docs.
 export const fetchTransactions = cache(async (): Promise<Transaction[]> => {
  const collection = await getCollection<TransactionDocument>(TRANSACTIONS_COLLECTION);
  const records = await collection.find({}).sort({ transactionDate: -1 }).toArray();
