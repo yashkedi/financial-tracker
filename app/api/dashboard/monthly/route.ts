@@ -1,3 +1,5 @@
+// Created by Valentina
+
 // imports
 
 import getCollection, { TRANSACTIONS_COLLECTION, BUDGET_COLLECTION } from "@/db";
