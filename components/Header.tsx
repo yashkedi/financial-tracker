@@ -1,8 +1,10 @@
 "use client"
+
+// imports
 import styled from "styled-components";
 import Link from "next/link";
 
-
+// styled components
 const StyledHeader = styled.header`
     background-color: white;
     color: white;
@@ -63,6 +65,7 @@ const GreenTitle = styled.span`
   color: green;
 `;
 
+// header function
 export default function Header() {
     return (
         <StyledHeader>

@@ -1,5 +1,6 @@
 "use client"
 
+// imports
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import {
@@ -9,6 +10,7 @@ import {
   // how to create pie charts using recharts: https://www.geeksforgeeks.org/reactjs/create-a-pie-chart-using-recharts-in-reactjs/
   // how to create bar charts using recharts: https://www.geeksforgeeks.org/reactjs/create-a-bar-chart-using-recharts-in-reactjs/
 
+// styled components
 const StyledMain = styled.main`
     background-color: white;
     color: black;
@@ -125,32 +127,37 @@ const StyledLink = styled.a`
 
 `;
 
+// export dashboard
 export default function Dashboard() {
+
     const [isMounted, setIsMounted] = useState(false);
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>(null); // initialize data
 
     // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
-
+    // fetch monthly budget
     useEffect(() => {
+
+        //convert month to variable for dynamic purposes
         const now = new Date();
         const month = String(now.getMonth() + 1).padStart(2, "0");
         const year = now.getFullYear();
         const ym = `${year}-${month}`;
 
-        fetch(`/api/dashboard/monthly?month=${ym}`)
+        fetch(`/api/dashboard/monthly?month=${ym}`) // get from api endpoint
         .then(res => res.json())
         .then(setData)
         .catch(console.error);
     }, []);
 
-    if (!isMounted) {
+    if (!isMounted) { // if it is not mounted return null
         return null;
     }
 
+    // main component
     return (
         <StyledMain>
             <StyledH1>Welcome to your Dashboard!</StyledH1>
