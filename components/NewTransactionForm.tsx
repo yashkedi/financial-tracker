@@ -197,11 +197,11 @@ export default function NewTransactionForm({append}: Props) {
                             required
                         >
                             <option value="">Select category</option>
-                            <option value="groceries">Groceries</option>
-                            <option value="travel">Travel</option>
-                            <option value="personal">Personal</option>
-                            <option value="bills">Bills</option>
-                            <option value="other">Other</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Other">Other</option>
                         </Select>
                     </Label>
 
