@@ -1,3 +1,7 @@
+// Author: Arhan Sheth
+// Purpose: Client-side form for creating a new expense transaction and submitting it
+//          via the createNewTransaction server action, with basic validation and styling
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -115,9 +119,10 @@ type FormState = {
 };
 
 export default function NewTransactionForm({append}: Props) {
-
+    // Prevent hydration mismatches by only rendering the form after the client has mounted
     const [isMounted, setIsMounted] = useState(false);
 
+    // Local form state mirrors the visible input fields
     const [form, setForm] = useState<FormState>({
         category: "",
         amount: "",
@@ -127,18 +132,20 @@ export default function NewTransactionForm({append}: Props) {
         country: "",
         city: "",
     });
-    const [error, setError] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(""); // Holds any validation/server error message
+    const [isSubmitting, setIsSubmitting] = useState(false); // Tracks in-flight submission state
 
     // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
+    // Render nothing on the server to avoid mismatched markup with styled-components
     if (!isMounted) {
         return null;
     }
 
+    // Update the controlled input value when the user edits a field
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) {
@@ -146,12 +153,14 @@ export default function NewTransactionForm({append}: Props) {
         setForm((prev) => ({...prev, [name]: value}));
     }
 
+    // Validate, call the server action, and reset relevant fields on success
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError("");
         setIsSubmitting(true);
 
         try {
+            // Convert the string form state into the typed TransactionEntry payload
             const payload: Omit<TransactionEntry, "id"> = {
                 category: form.category,
                 amount: Number(form.amount),
@@ -165,7 +174,7 @@ export default function NewTransactionForm({append}: Props) {
             };
 
             const newTx = await createNewTransaction(payload);
-            if (append) append(newTx);
+            if (append) append(newTx); // Let the parent update its local list without a reload
             setForm((prev) => ({
                 ...prev,
                 amount: "",
@@ -281,6 +290,7 @@ export default function NewTransactionForm({append}: Props) {
                     />
                 </Label>
 
+                {/* Display any server-side/validation error below the inputs */}
                 {error && <ErrorText>{error}</ErrorText>}
 
                 <SubmitButton

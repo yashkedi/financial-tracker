@@ -1,3 +1,6 @@
+// Author: Arhan Sheth
+// Purpose: Next.js client page that renders the global header and the Add Transaction form at /add
+
 "use client";
 
 import Header from "@/components/Header";

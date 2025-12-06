@@ -1,17 +1,25 @@
+// Author: Arhan Sheth
+// Purpose: Server action that validates and inserts a new transaction into MongoDB,
+//          returning a plain TransactionEntry object safe to send to client components
+
 "use server";
 
 import getCollection, {TRANSACTIONS_COLLECTION} from "@/db";
 import type {TransactionEntry} from "@/types/transaction";
 
+// Guard against invalid or negative amounts
 function isValidAmount(amount: number) {
     return Number.isFinite(amount) && amount > 0;
 }
 
+// Basic currency validation
 function isValidCurrency(currency: string) {
     return currency.length > 0;
 }
 
+// Insert a new transaction document and return a serialized TransactionEntry
 export default async function createNewTransaction(data: Omit<TransactionEntry, "id">): Promise<TransactionEntry> {
+    // Required-field validation
     if (!data.category) {
         throw new Error("Category is required");
     }
@@ -24,6 +32,7 @@ export default async function createNewTransaction(data: Omit<TransactionEntry, 
 
     const transactionsCollection = await getCollection(TRANSACTIONS_COLLECTION);
 
+    // Shape of the document as stored in MongoDB
     const entry = {
         category: data.category,
         amount: data.amount,
@@ -33,11 +42,13 @@ export default async function createNewTransaction(data: Omit<TransactionEntry, 
         location: data.location ?? {},
     };
 
+    // Insert into MongoDB and ensure the write succeeded
     const res = await transactionsCollection.insertOne(entry);
     if (!res.acknowledged) {
         throw new Error("DB insert failed");
     }
 
+    // Convert MongoDB ObjectId into a string id for client components
     const result: TransactionEntry = {
         id: res.insertedId.toHexString(),
         category: entry.category,
