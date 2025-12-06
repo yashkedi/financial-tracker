@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinancialTracker
 
-## Getting Started
+FinancialTracker is a full‑stack budgeting web application that helps users set a monthly budget, track expenses by category, and export their transaction history. It is built with Next.js (App Router), TypeScript, MongoDB, and styled‑components.
 
-First, run the development server:
+## Team
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+FinancialTracker was created by:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Arhan Sheth
+- Shepherd Currie
+- Valentina Mora
+- Yash Kedia
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+and for:
+BU CAS CS391 Final Project under the guidance of Professor Taymaz Davoodi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+- **Frontend / Routing**: Next.js (App Router), React, TypeScript
+- **Styling**: styled-components
+- **Database**: MongoDB (Node.js driver)
+- **Data Visualization**: Recharts for pie and bar charts (dashboard)
+- **CSV Export**: Server‑side CSV generation from MongoDB transactions
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure (High Level)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/`
+    - `layout.tsx`: Global layout and header
+    - `page.tsx`: Home / Dashboard page
+    - `budget/page.tsx`: Budget setup page
+    - `transactions/page.tsx`: Transactions table and CSV export
+    - `add/page.tsx`: Add Transaction form page
+    - `credits/page.tsx`: Credits page listing team members
+- `components/`
+    - `Header.tsx`: Top navigation bar (Home, Budget, Transactions)
+    - `Dashboard.tsx`: Dashboard content (charts, summary, tips)
+    - `Footer.tsx`: House the credits
+    - `BudgetForm.tsx`: Form for entering total monthly budget and category budgets
+    - `TransactionsTable.tsx`: Filterable/searchable transactions table with CSV export
+    - `NewTransactionForm.tsx`: Client-side form for adding a new transaction
+- `lib/`
+    - `createNewTransaction.ts`: Server action to insert a transaction into MongoDB
+    - `createNewBudget.ts`: Server action to insert a new budget into MongoDB
+    - `exportCsv.ts`: Covert transactions table into a csv
+    - `transactionUtils.ts`: Normalize, render, trim, and guard data from Mongo onto the transactions table page
+- `db.ts`: MongoDB connection helper (DB, typed collections)
+- `types/`
+  - `transaction.ts`: Shared `TransactionEntry` TypeScript type
+  - `budget.ts`: Shared `Budget` TypeScript type
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment Variables
 
-## Deploy on Vercel
+Create a `.env.local` file in the project root with the following variable:
+- `MONGO_URI`: 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
