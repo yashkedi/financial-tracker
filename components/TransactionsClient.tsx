@@ -213,7 +213,7 @@ export default function TransactionsClient({ initialTransactions }: Props) {
  useEffect(() => {
    setIsMounted(true);
  }, []);
-
+ // Render nothing on the server to avoid mismatched markup with styled-components
  if (!isMounted) {
    return null;
  }
