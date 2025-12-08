@@ -11,9 +11,6 @@ FinancialTracker was created by:
 - Valentina Mora
 - Yash Kedia
 
-and for:
-BU CAS CS391 Final Project under the guidance of Professor Taymaz Davoodi
-
 ## Tech Stack
 
 - **Frontend / Routing**: Next.js (App Router), React, TypeScript
@@ -51,5 +48,3 @@ BU CAS CS391 Final Project under the guidance of Professor Taymaz Davoodi
 ## Environment Variables
 
 Create a `.env.local` file in the project root with the following variable:
-- `MONGO_URI`: 
-
