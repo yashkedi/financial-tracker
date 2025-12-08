@@ -1,9 +1,13 @@
+// author: Shepherd Currie
+// email: sscurrie@bu.edu
+
 "use client";
 
 import styled from "styled-components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+// styled components
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;

@@ -1,8 +1,12 @@
+// author: Shepherd Currie
+// email: sscurrie@bu.edu
+
 "use client";
 
 import styled from "styled-components";
 import Link from "next/link";
 
+// styled components
 const StyledFooter = styled.footer`
     font-family: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
     text-align: left;

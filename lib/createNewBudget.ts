@@ -1,3 +1,6 @@
+// author: Shepherd Currie
+// email: sscurrie@bu.edu
+
 "use server";
 
 import type { Budget } from "@/types/budget";

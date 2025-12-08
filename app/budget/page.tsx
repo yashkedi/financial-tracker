@@ -1,3 +1,6 @@
+// author: Shepherd Currie
+// email: sscurrie@bu.edu
+
 "use client";
 
 import Header from "@/components/Header";

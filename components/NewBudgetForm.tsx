@@ -1,3 +1,6 @@
+// author: Shepherd Currie
+// email: sscurrie@bu.edu
+
 "use client";
 
 import createNewBudget from "@/lib/createNewBudget";
@@ -149,20 +152,21 @@ export default function NewBudgetForm() {
         });
     }
 
-    // helper function to check if month is valid format
+    // helper function to check if month is valid format (YYYY-MM)
     function checkMonth(month:string) {
-        // use regexp to check if month string is valid
+        // use regexp to check if month string is valid (YYYY-MM: (01-12))
+        // regexp: https://www.geeksforgeeks.org/javascript/javascript-regexpregular-expression/ 
         const validMonth = /^\d{4}-(0[1-9]|1[0-2])$/;
         return validMonth.test(month);
     }
 
     // helper function to check if totalBudget is non-neg
     function checkBudget(budget:number) {
-        // check if totalBudget >= 0
-        return budget >= totalBudget;
+        // check if budget >= 0
+        return budget >= 0;
     }
 
-    // helper function to check if category limits sum to total budget (or less than)
+    // helper function to check if category limits sum to exactly total budget 
     function checkLimit( categories:{name: string; limit: number;}[] ):boolean {
         // sum each category limit
         const sum = categories.reduce(
@@ -215,6 +219,27 @@ export default function NewBudgetForm() {
             // no longer loading
             setLoading(false);
         }
+
+        // clear form inputs after submission
+        setMonth('');
+        setTotalBudget(0);
+        setCategory([
+            {
+                name: "Groceries", limit: 0
+            },
+            {
+                name: "Travel", limit: 0
+            },
+            {
+                name: "Personal", limit: 0
+            },
+            {
+                name: "Bills", limit: 0
+            },
+            {
+                name: "Other", limit: 0
+            },
+        ]);
     }
 
     return (
@@ -269,7 +294,7 @@ export default function NewBudgetForm() {
                     </StyledError>
                 }
 
-                {/* submit button */}
+                {/* submit button (disabled if month or totalbudget not filled, or if still loading) */}
                 <StyledButton
                     type="submit"
                     disabled={!month || !totalBudget || loading}
